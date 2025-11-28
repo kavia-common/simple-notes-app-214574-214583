@@ -1,6 +1,8 @@
 import Blits from '@lightningjs/blits'
 import { theme } from '../../styles/theme.js'
 
+const $shader = (...args) => (Blits.$shader ? Blits.$shader(...args) : (type, conf) => ({ type, conf }))
+
 // PUBLIC_INTERFACE
 export default Blits.Component('UIInput', {
   props: {
@@ -9,13 +11,14 @@ export default Blits.Component('UIInput', {
     w: { type: Number, default: 400 },
   },
   template: `
-    <Element :w="$w" h="48" :color="theme.colors.surface" :effects="[$shader('radius',{radius:10})]">
+    <Element :w="$w" h="48" :color="$t.colors.surface" :effects="$radiusEffects">
       <Element ref="border" x="0" y="0" :w="$w" h="48" color="#00000000" :effects="[]" />
       <Text ref="txt" x="16" mount="{y:0.5}" y="50%" size="24" :color="$displayColor" :content="$displayText" />
     </Element>
   `,
   state() {
     return {
+      t: theme,
       internal: this.value,
       focused: false,
     }
@@ -25,7 +28,11 @@ export default Blits.Component('UIInput', {
       return this.internal || this.placeholder
     },
     displayColor() {
-      return this.internal ? theme.colors.text : theme.colors.textMuted
+      return this.internal ? this.t.colors.text : this.t.colors.textMuted
+    },
+    radiusEffects() {
+      // Precompute once for binding
+      return [$shader('radius', { radius: 10 })]
     },
   },
   hooks: {
@@ -35,7 +42,7 @@ export default Blits.Component('UIInput', {
   },
   methods: {
     _updateBorder() {
-      const col = this.focused ? theme.colors.primary : theme.colors.border
+      const col = this.focused ? this.t.colors.primary : this.t.colors.border
       this.$select('border').color = col
     },
   },

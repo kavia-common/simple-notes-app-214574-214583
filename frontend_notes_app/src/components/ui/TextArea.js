@@ -1,6 +1,8 @@
 import Blits from '@lightningjs/blits'
 import { theme } from '../../styles/theme.js'
 
+const $shader = (...args) => (Blits.$shader ? Blits.$shader(...args) : (type, conf) => ({ type, conf }))
+
 // PUBLIC_INTERFACE
 export default Blits.Component('UITextArea', {
   props: {
@@ -10,12 +12,13 @@ export default Blits.Component('UITextArea', {
     placeholder: { type: String, default: 'Write your note...' },
   },
   template: `
-    <Element :w="$w" :h="$h" :color="theme.colors.surface" :effects="[$shader('radius',{radius:10})]">
+    <Element :w="$w" :h="$h" :color="$t.colors.surface" :effects="$radiusEffects">
       <Text ref="content" x="16" y="16" :maxwidth="$w - 32" :maxheight="$h - 32" size="26" lineheight="36" :color="$txtColor" :content="$display" />
     </Element>
   `,
   state() {
     return {
+      t: theme,
       internal: this.value,
       focused: false,
     }
@@ -25,7 +28,10 @@ export default Blits.Component('UITextArea', {
       return this.internal || this.placeholder
     },
     txtColor() {
-      return this.internal ? theme.colors.text : theme.colors.textMuted
+      return this.internal ? this.t.colors.text : this.t.colors.textMuted
+    },
+    radiusEffects() {
+      return [$shader('radius', { radius: 10 })]
     },
   },
   hooks: {
