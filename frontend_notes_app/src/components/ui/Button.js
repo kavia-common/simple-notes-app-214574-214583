@@ -52,7 +52,7 @@ export default Blits.Component('UIButton', {
     focus() {
       this.hoverAlpha = 0.15
     },
-    unfocus() {
+  unfocus() {
       this.hoverAlpha = 0
     },
     pointerover() {

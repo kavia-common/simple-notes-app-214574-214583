@@ -3,6 +3,7 @@ import UIInput from './ui/Input.js'
 import UITextArea from './ui/TextArea.js'
 import UIButton from './ui/Button.js'
 import UIIcon from './ui/Icon.js'
+import { theme } from '../styles/theme.js'
 
 // PUBLIC_INTERFACE
 export default Blits.Component('NoteEditor', {
@@ -13,7 +14,7 @@ export default Blits.Component('NoteEditor', {
   template: `
     <Element w="100%" h="100%" color="{a:0}">
       <Element x="24" y="24" :alpha.transition="$alphaVal">
-        <Text size="28" color="theme.colors.textMuted" content="Details" />
+        <Text size="28" :color="$t.colors.textMuted" content="Details" />
       </Element>
       <Element x="24" y="64" w="1200" h="56">
         <UIInput ref="title" :w="900" placeholder="Title" :value="$title" @change="$onTitle" />
@@ -28,12 +29,13 @@ export default Blits.Component('NoteEditor', {
         <UITextArea ref="content" :w="1200" :h="840" :value="$content" placeholder="Write your note..." @change="$onContent" />
       </Element>
       <Element x="24" y="1000" :alpha.transition="$hintAlpha">
-        <Text size="20" color="theme.colors.textMuted" content="Shortcuts: Ctrl/Cmd+N - New, Ctrl/Cmd+S - Save" />
+        <Text size="20" :color="$t.colors.textMuted" content="Shortcuts: Ctrl/Cmd+N - New, Ctrl/Cmd+S - Save" />
       </Element>
     </Element>
   `,
   state() {
     return {
+      t: theme,
       internal: this.note,
       title: this.note ? this.note.title : '',
       content: this.note ? this.note.content : '',

@@ -12,8 +12,8 @@ export default Blits.Component('NotesHome', {
     <Element w="1920" h="1080" :color="$bg">
       <Element w="1920" h="1080" color="{a:0}">
         <Element x="24" y="16" w="1872" h="60" color="{a:0}">
-          <Text size="36" color="theme.colors.text" content="Ocean Notes" />
-          <Text x="300" y="6" size="22" color="theme.colors.textMuted" content="A simple two-pane notes app" />
+          <Text size="36" :color="$t.colors.text" content="Ocean Notes" />
+          <Text x="300" y="6" size="22" :color="$t.colors.textMuted" content="A simple two-pane notes app" />
         </Element>
         <Element x="24" y="84" w="560" h="972">
           <UIPanel :w="560" :h="972">
@@ -32,7 +32,7 @@ export default Blits.Component('NotesHome', {
             <Element x="0" y="0" w="1296" h="972" color="{a:0}">
               <Slot name="detail">
                 <Element>
-                  <Text x="24" y="24" size="26" color="theme.colors.textMuted" content="Select a note from the left or create a new one." />
+                  <Text x="24" y="24" size="26" :color="$t.colors.textMuted" content="Select a note from the left or create a new one." />
                 </Element>
               </Slot>
             </Element>
@@ -43,6 +43,7 @@ export default Blits.Component('NotesHome', {
   `,
   state() {
     return {
+      t: theme,
       bg: theme.colors.background,
     }
   },
@@ -93,7 +94,7 @@ export default Blits.Component('NotesHome', {
               x: 24,
               y: 24,
               size: 26,
-              color: theme.colors.textMuted,
+              color: this.t.colors.textMuted,
               content: this.$notesStore.items.length
                 ? 'Select a note from the left.'
                 : 'No notes yet. Click New to create one.',

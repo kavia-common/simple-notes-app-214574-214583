@@ -14,7 +14,7 @@ export default Blits.Component('NotesList', {
   },
   components: { UIInput, UIButton, UIIcon },
   template: `
-    <Element w="600" h="100%" color="theme.colors.background">
+    <Element w="600" h="100%" :color="$t.colors.background">
       <Element x="16" y="16" w="568" h="56">
         <UIInput ref="search" :w="468" placeholder="Search notes..." :value="$query" @change="$onSearch" />
         <Element x="484" y="0">
@@ -26,12 +26,17 @@ export default Blits.Component('NotesList', {
       <Element y="88" x="8" w="584" :h="100%-96">
         <Slot name="list">
           <Element>
-            <Text x="12" y="12" size="22" color="theme.colors.textMuted" content="No notes found." />
+            <Text x="12" y="12" size="22" :color="$t.colors.textMuted" content="No notes found." />
           </Element>
         </Slot>
       </Element>
     </Element>
   `,
+  state() {
+    return {
+      t: theme,
+    }
+  },
   hooks: {
     ready() {
       this._renderList()
@@ -55,7 +60,7 @@ export default Blits.Component('NotesList', {
               x: 12,
               y: 12,
               size: 22,
-              color: theme.colors.textMuted,
+              color: this.t.colors.textMuted,
               content: this.query ? 'No notes match your search.' : 'No notes yet. Create a new one.',
             },
           ],
@@ -72,13 +77,13 @@ export default Blits.Component('NotesList', {
           color: isSel ? '#2563EB22' : '#00000000',
           effects: [$shader('radius', { radius: 10 })],
           children: [
-            { type: 'Text', x: 16, y: 14, size: 26, color: theme.colors.text, content: n.title || 'Untitled' },
+            { type: 'Text', x: 16, y: 14, size: 26, color: this.t.colors.text, content: n.title || 'Untitled' },
             {
               type: 'Text',
               x: 16,
               y: 44,
               size: 18,
-              color: theme.colors.textMuted,
+              color: this.t.colors.textMuted,
               content: new Date(n.updatedAt).toLocaleString(),
             },
           ],
