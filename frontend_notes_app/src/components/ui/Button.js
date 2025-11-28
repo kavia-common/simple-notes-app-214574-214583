@@ -10,7 +10,7 @@ export default Blits.Component('UIButton', {
     h: { type: Number, default: 56 },
   },
   template: `
-    <Element :w="$w" :h="$h" :color="$bgColor" :effects="[...$effects]" :alpha.transition="$alphaVal">
+    <Element :w="$w" :h="$h" :color="$bgColor" :effects="$effects" :alpha.transition="$alphaVal">
       <Text ref="txt" x="20" mount="{y:0.5}" y="50%" size="28" :color="$txtColor" :content="$label" />
       <Element
         ref="hover"
